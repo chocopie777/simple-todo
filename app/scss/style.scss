@@ -13,10 +13,37 @@
 .header__inner {
   height: 200px;
 }
+
 .container {
   margin: 0 auto;
-  max-width: 736px;
+  max-width: 766px;
   padding: 0 15px;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+}
+.logo__link {
+  display: flex;
+  align-items: center;
+}
+.logo__img {
+  margin-top: 5px;
+}
+.logo__title {
+  margin-left: 12px;
+  color: var(--blue, #4EA8DE);
+  font-family: Inter-Black;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  span {
+    color: var(--purple-dark, #5E60CE);
+  }
+}
+.logo__link {
+  text-decoration: none;
 }
 
 @import "../scss/media_queries";
