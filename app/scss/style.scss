@@ -1,0 +1,22 @@
+@import "../css/normalize";
+@import "../css/reset";
+@import "../scss/fonts";
+
+.header {
+  background: var(--gray-700, #0D0D0D);
+}
+
+.main {
+  background: var(--gray-600, #1A1A1A);
+}
+
+.header__inner {
+  height: 200px;
+}
+.container {
+  margin: 0 auto;
+  max-width: 736px;
+  padding: 0 15px;
+}
+
+@import "../scss/media_queries";
