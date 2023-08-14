@@ -12,7 +12,7 @@ const imagemin = require('gulp-imagemin');
 const newer = require('gulp-newer');
 const fonter = require('gulp-fonter');
 const ttf2woff2 = require('gulp-ttf2woff2');
-
+const webpack = require('webpack-stream');
 function fonts() {
     return src('app/fonts/src/*.*')
         .pipe(fonter({
@@ -43,6 +43,7 @@ function scripts() {
     return src([
         'app/js/main.js'
     ])
+        .pipe(webpack())
         .pipe(concat('main.min.js'))
         .pipe(uglify())
         .pipe(dest('app/js'))
