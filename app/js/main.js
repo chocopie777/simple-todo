@@ -4,6 +4,13 @@ const taskCreationButton = document.getElementById('task-creation-button');
 const input = document.getElementById('input');
 const items = document.querySelector('.tasks__items');
 const numberTasks = document.querySelector('.tasks__left-wrapper .tasks__text-counter');
+const numberTasksCompleted = document.querySelector('.tasks__right-wrapper .tasks__text-counter');
+
+const data = getTasks();
+
+insertTaskCount(data);
+
+displayTasksHtml(data);
 
 function getTasks() {
     let data = localStorage.getItem('tasks');
@@ -24,6 +31,66 @@ function setTask(text) {
         checked: false
     }
     localStorage.setItem('tasks', JSON.stringify(data));
+    data = getTasks();
+    insertTaskCount(data);
+    clearTasksHtml();
+    displayTasksHtml(data);
+}
+
+function removeTask(uuid) {
+    let data = getTasks();
+    delete data[uuid];
+    if (Object.keys(data).length !== 0) {
+        localStorage.setItem('tasks', JSON.stringify(data));
+    } else {
+        localStorage.removeItem('tasks');
+    }
+    data = getTasks();
+    insertTaskCount(data);
+    clearTasksHtml();
+    displayTasksHtml(data);
+}
+
+function updateCheckbox(uuid) {
+    let data = getTasks();
+    data[uuid].checked = !data[uuid].checked;
+    localStorage.setItem('tasks', JSON.stringify(data));
+    data = getTasks();
+    insertTaskCount(data);
+    clearTasksHtml();
+    displayTasksHtml(data);
+}
+
+
+function displayTasksHtml(data) {
+    if (data !== false) {
+        for (let item in data) {
+            insertItem(data[item].text, data[item].checked, item);
+        }
+
+        const btnDel = document.querySelectorAll('.tasks__item-btn');
+        const btnCheck = document.querySelectorAll('.tasks__item-checkbox');
+
+        for (let btnDelElement of btnDel) {
+            btnDelElement.addEventListener('click', (event) => {
+                const uuid = event.currentTarget.id;
+                removeTask(uuid);
+            })
+        }
+
+        for (let btnCheckElement of btnCheck) {
+            btnCheckElement.addEventListener('click', (event) => {
+                const uuid = event.currentTarget.id;
+                updateCheckbox(uuid);
+            })
+        }
+    } else {
+        insertEmptyItem();
+    }
+}
+
+function clearTasksHtml() {
+    document.querySelector('.tasks__items').innerHTML = '';
 }
 
 taskCreationButton.addEventListener('click', (event) => {
@@ -31,28 +98,20 @@ taskCreationButton.addEventListener('click', (event) => {
     input.value = '';
 });
 
-if(getTasks() !== false) {
-    const data = getTasks();
-
-    numberTasks.innerText = getNumberTasks(data);
-
-    for (let item in data) {
-        insertItem(data[item].text, data[item].checked, item);
-    }
-} else {
-
-}
 function insertItem(text, checked, uuid) {
-    let checkboxString = checked ? '<input class="tasks__item-checkbox" type="checkbox" checked>\n' :
-        '<input class="tasks__item-checkbox" type="checkbox">\n';
-    let itemString = '<div class="tasks__item" id="' + uuid + '">\n';
-    items.insertAdjacentHTML('beforeend', itemString +
+    let checkboxString = checked ? '<input class="tasks__item-checkbox" type="checkbox" id="' + uuid + '" checked>\n' :
+        '<input class="tasks__item-checkbox" type="checkbox" id="' + uuid + '">\n';
+    let btnString = '<button class="tasks__item-btn" id="' + uuid + '">\n';
+
+    let textString = checked ? '<p class="tasks__item-text tasks__item-text--check">' + text + '</p>\n' : '<p class="tasks__item-text">' + text + '</p>\n';
+
+    items.insertAdjacentHTML('beforeend', '<div class="tasks__item">\n' +
         '<label>\n' +
         checkboxString +
         '<span class="tasks__item-checkbox-style"></span>\n' +
         '</label>\n' +
-        '<p class="tasks__item-text">' + text + '</p>\n' +
-        '<button class="tasks__item-btn">\n' +
+        textString +
+        btnString +
         '<svg class="tasks__item-img" xmlns="http://www.w3.org/2000/svg" width="13" height="14"\n' +
         'viewBox="0 0 13 14"\n' +
         'fill="none">\n' +
@@ -65,6 +124,32 @@ function insertItem(text, checked, uuid) {
         '</div>');
 }
 
+function insertEmptyItem() {
+    console.log(items);
+    items.insertAdjacentHTML('beforeend', '<div class="tasks__empty">\n' +
+        '<img src="images/Clipboard.webp" alt="clipboard" class="tasks__empty-img">\n' +
+        '<p class="tasks__empty-text">\n' +
+        '<strong>У вас еще нет созданных задач</strong>\n' +
+        '<span>Создавайте свои задачи</span>\n' +
+        '</p>\n' +
+        '</div>');
+}
+
+function insertTaskCount(data) {
+    const totalTasksCount = getNumberTasks(data);
+    const tasksCompletedCount = getNumberCompletedTasks(data);
+    numberTasks.innerHTML = totalTasksCount.toString();
+    numberTasksCompleted.innerHTML = `${tasksCompletedCount.toString()} из ${totalTasksCount.toString()}`;
+}
+
 function getNumberTasks(data) {
     return Object.keys(data).length;
+}
+
+function getNumberCompletedTasks(data) {
+    let count = 0;
+    for (let dataKey in data) {
+        data[dataKey].checked ? count++ : count;
+    }
+    return count;
 }

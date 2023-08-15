@@ -278,7 +278,7 @@
     font-weight: 400;
   }
 }
-.tasks__item--check .tasks__item-text {
+.tasks__item-text.tasks__item-text--check{
   color: var(--gray-300, #808080);
   text-decoration: line-through;
 }
