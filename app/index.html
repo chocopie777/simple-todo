@@ -9,47 +9,52 @@
 </head>
 
 <body class="body">
-<header class="header">
-    <div class="container">
-        <div class="header__inner">
-            <div class="logo">
-                <a class="logo__link" href="/">
-                    <img class="logo__img" src="images/rocket.svg" alt="logo">
-                    <h1 class="logo__title">to<span>do</span></h1>
-                </a>
+<div class="wrapper" data-simplebar data-simplebar-auto-hide="false">
+    <div class="inner">
+        <header class="header">
+            <div class="container">
+                <div class="header__inner">
+                    <div class="logo">
+                        <a class="logo__link" href="/">
+                            <img class="logo__img" src="images/rocket.svg" alt="logo">
+                            <h1 class="logo__title">to<span>do</span></h1>
+                        </a>
+                    </div>
+                    <div class="creating-a-task">
+                        <input class="creating-a-task__input" placeholder="Добавить новую задачу" type="text"
+                               id="input">
+                        <button class="creating-a-task__btn" id="task-creation-button">
+                            <span class="creating-a-task__text">Создать</span>
+                            <img class="creating-a-task__img" src="images/plus.svg" alt="btn-icon">
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="creating-a-task">
-                <input class="creating-a-task__input" placeholder="Добавить новую задачу" type="text" id="input">
-                <button class="creating-a-task__btn" id="task-creation-button">
-                    <span class="creating-a-task__text">Создать</span>
-                    <img class="creating-a-task__img" src="images/plus.svg" alt="btn-icon">
-                </button>
-            </div>
-        </div>
+        </header>
+        <main class="main">
+            <section class="tasks">
+                <div class="container">
+                    <div class="tasks__inner">
+                        <div class="tasks__head">
+                            <div class="tasks__left-wrapper">
+                                <span class="tasks__text-title tasks__text-title--color-blue">Создано задач</span>
+                                <span class="tasks__text-counter">0</span>
+                            </div>
+                            <div class="tasks__right-wrapper">
+                                <span class="tasks__text-title tasks__text-title--color-violet">Завершено задач</span>
+                                <span class="tasks__text-counter">0</span>
+                            </div>
+                        </div>
+                        <div class="tasks__body">
+                            <div class="tasks__items">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
-</header>
-<main class="main">
-    <section class="tasks">
-        <div class="container">
-            <div class="tasks__inner">
-                <div class="tasks__head">
-                    <div class="tasks__left-wrapper">
-                        <span class="tasks__text-title tasks__text-title--color-blue">Создано задач</span>
-                        <span class="tasks__text-counter">0</span>
-                    </div>
-                    <div class="tasks__right-wrapper">
-                        <span class="tasks__text-title tasks__text-title--color-violet">Завершено задач</span>
-                        <span class="tasks__text-counter">0</span>
-                    </div>
-                </div>
-                <div class="tasks__body">
-                    <div class="tasks__items">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
+</div>
 <script src="js/main.min.js"></script>
 </body>
 

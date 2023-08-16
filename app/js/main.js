@@ -1,4 +1,5 @@
 import {v4} from "uuid";
+import 'simplebar';
 
 const taskCreationButton = document.getElementById('task-creation-button');
 const input = document.getElementById('input');
@@ -60,7 +61,7 @@ function removeTask(uuid) {
         insertTaskCount(data);
         clearTasksHtml();
         displayTasksHtml(data);
-    }, 500);
+    },500);
 }
 
 function updateCheckbox(uuid) {
