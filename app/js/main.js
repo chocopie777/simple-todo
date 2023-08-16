@@ -8,6 +8,9 @@ const numberTasksCompleted = document.querySelector('.tasks__right-wrapper .task
 
 const data = getTasks();
 
+let isNewElement = false;
+let newElementUuid = undefined;
+
 insertTaskCount(data);
 
 displayTasksHtml(data);
@@ -26,12 +29,17 @@ function setTask(text) {
     if (data === false) {
         data = {};
     }
-    data[`${v4()}`] = {
+    const uuid = v4().toString();
+    data[uuid] = {
         text: String(text),
         checked: false
     }
     localStorage.setItem('tasks', JSON.stringify(data));
     data = getTasks();
+
+    isNewElement = true;
+    newElementUuid = uuid;
+
     insertTaskCount(data);
     clearTasksHtml();
     displayTasksHtml(data);
@@ -46,9 +54,13 @@ function removeTask(uuid) {
         localStorage.removeItem('tasks');
     }
     data = getTasks();
-    insertTaskCount(data);
-    clearTasksHtml();
-    displayTasksHtml(data);
+    const item = document.getElementById(uuid).parentNode.parentNode;
+    item.classList.add('animate__animated', 'animate__zoomOut');
+    setTimeout(function () {
+        insertTaskCount(data);
+        clearTasksHtml();
+        displayTasksHtml(data);
+    }, 500);
 }
 
 function updateCheckbox(uuid) {
@@ -105,7 +117,17 @@ function insertItem(text, checked, uuid) {
 
     let textString = checked ? '<p class="tasks__item-text tasks__item-text--check">' + text + '</p>\n' : '<p class="tasks__item-text">' + text + '</p>\n';
 
-    items.insertAdjacentHTML('beforeend', '<div class="tasks__item">\n' +
+    let divString;
+
+    if (isNewElement && uuid === newElementUuid) {
+        divString = '<div class="tasks__item animate__animated animate__zoomIn">\n';
+        isNewElement = false;
+        newElementUuid = undefined;
+    } else {
+        divString = '<div class="tasks__item">\n';
+    }
+
+    items.insertAdjacentHTML('beforeend',divString +
         '<label>\n' +
         checkboxString +
         '<span class="tasks__item-checkbox-style"></span>\n' +
@@ -125,8 +147,7 @@ function insertItem(text, checked, uuid) {
 }
 
 function insertEmptyItem() {
-    console.log(items);
-    items.insertAdjacentHTML('beforeend', '<div class="tasks__empty">\n' +
+    items.insertAdjacentHTML('beforeend', '<div class="tasks__empty animate__animated animate__fadeIn">\n' +
         '<img src="images/Clipboard.webp" alt="clipboard" class="tasks__empty-img">\n' +
         '<p class="tasks__empty-text">\n' +
         '<strong>У вас еще нет созданных задач</strong>\n' +
