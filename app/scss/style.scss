@@ -15,6 +15,7 @@
 
 .wrapper {
   height: 100vh;
+  background: var(--gray-600, #1A1A1A);
 }
 
 
@@ -263,6 +264,7 @@
 }
 
 .tasks__empty {
+  user-select: none;
   display: flex;
   flex-direction: column;
   align-items: center;
